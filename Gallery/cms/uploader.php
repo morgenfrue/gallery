@@ -10,7 +10,7 @@ if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SE
 	if (!isset($_FILES['image_uploader']) || !is_uploaded_file($_FILES['image_uploader']['tmp_name'])) {
 		die("Image file is missing :(");
 	}
-	
+
 	$img_name = $_FILES['image_uploader']['name'];
 	$img_size = $_FILES['image_uploader']['size'];
 	$img_temp = $_FILES['image_uploader']['tmp_name'];
@@ -48,25 +48,58 @@ if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SE
 		$thumb_folder	= $img_folder . $thumb_prefix . $new_file_name;
 		$image_folder	= $img_folder . $new_file_name;
 		
-		/* DISABLED FOR TESTING 
 	    if (!scale_image($image_res, $thumb_folder, $img_type, $img_width, $img_height, $jpg_quality, 'thumb')) {
 	        die("Error creating thumb :(");
 	    }
 	    if (!scale_image($image_res, $image_folder, $img_type, $img_width, $img_height, $jpg_quality, 'original')) {
 	    	die("Error creating image :(");
 	    }
-	    */
-	    
-	    	
-	    echo '<DIV>New image:';
-	    echo '<IMG SRC="../photos/' . $thumb_prefix . $new_file_name . '">';
-	    echo '<BR />';
-	    echo '<IMG SRC="../photos/' . $new_file_name . '">';
-	    echo '</DIV>';
-	    
+
+	    if (save_data($_POST, $thumb_prefix, $new_file_name)) {
+	    	echo '<IMG SRC="../photos/' . $thumb_prefix . $new_file_name . '">';
+	    }
+
 	    imagedestroy($image_res);
 	}
 } 
+
+
+function save_data($post, $tmb, $img) {
+  $title 		= $post["image_title"];
+  $date			= $post["image_date"];
+  $category		= $post["image_category"];
+  $gear			= $post["image_gear"];
+  $description 	= $post["image_description"];
+
+  $host 		= "localhost";
+  $user 		= "root";
+  $pass 		= "MANDRAKE";
+  $db		 	= "Gallery";
+  $table		= "gallery_photos";
+
+  $query 		= 'INSERT INTO 
+   			      ' . $table . 
+  				  ' (TITLE, DATE, CATEGORY, DESCRIPTION, GEAR, FILEPATH, THUMB) VALUES (
+  				  "' . $title . '", 
+  				  "' . $date . '", 
+  				  "' . $category . '", 
+  				  "' . $description . '", 
+  				  "' . $gear . '", 
+  				  "' . $img . '", 
+  				  "' . $tmb . $img . '")';
+
+  $mysqli  	= new mysqli($host, $user, $pass, $db);
+
+  if ($mysqli->connect_errno) {
+	  printf("Connect failed: %s\n", $mysqli->connect_error);
+	  exit();
+  }
+
+  if ($mysqli->query($query)) {
+  	return true;
+  }
+
+}
 
 
 function scale_image($source, $destination, $type, $width, $height, $quality, $method) {

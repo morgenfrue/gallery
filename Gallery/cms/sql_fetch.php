@@ -2,28 +2,36 @@
 
 $host 		= "localhost";
 $user 		= "root";
-$pass 		= "";
-$db		 	= "gallery";
-$tableName 	= "gallery_gear";
-$dbQuery 	= "SELECT * FROM " . $tableName;
-$dbAry      = array();
+$pass 		= "MANDRAKE";
+$db		 	= "Gallery";
+$table 		= $_GET["table"];
+$sort 		= $_GET["sort"];
+$elm		= $_GET["elm"];
 
-// CONNECT
-//$mysqli  	= new mysqli($host, $user, $pass, $db);
-$con = @mysqli_connect($host, $user, $pass, $db);
-
-if (!$con) {
- trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
+if ($elm != "all") { 
+	$query = "SELECT * FROM " . $table . " WHERE ID = " . $elm; 
+} else {
+	$query 	= "SELECT * FROM " . $table . " ORDER BY " . $sort;
 }
 
+$mysqli  	= new mysqli($host, $user, $pass, $db);
 
-$result = mysqli_query($con, $dbQuery);
-
-while ($row = mysqli_fetch_array($result)) {
-	$dbAry[] = $row;
+if ($mysqli->connect_errno) {
+	printf("Connect failed: %s\n", $mysqli->connect_error);
+	exit();
 }
 
-echo '{"photos":' . json_encode($dbAry) . '}';
+$result = $mysqli->query($query);
+$data   = array();
+
+while ($row = mysqli_fetch_array($result, true)){
+	$data[] = array_map(utf8_encode, $row); 
+};
+
+echo json_encode($data);
+
+$result->free();
+$mysqli->close();
 
 
 ?>

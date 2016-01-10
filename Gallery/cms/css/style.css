@@ -1,1 +1,145 @@
 @CHARSET "ISO-8859-1";
+
+BODY {
+	background-color: 	#444;
+	color: 				#DDD;
+	font-family: 		'Ubuntu';
+	font-size: 			14px;
+	margin:				0px;
+	padding:			0px;
+}
+
+INPUT {
+	padding:			4px;
+}
+
+#header {
+	background:			linear-gradient(to right,  #222 0%,#000 100%);
+	margin:				0px;
+	text-align:			right;
+	padding: 			25px;
+	height: 			30px;
+	font-size: 			20px;
+	font-style: 		italic;
+	font-weight: 		bold;
+	color:				#FFF;
+	border-top-left-radius:  10px;
+	border-top-right-radius: 10px;
+}
+
+.container {
+	border-radius: 		10px;
+	width: 				80%;
+	margin:				10px auto;
+}
+
+#collection_container {
+	float:				right;
+	width:				365px;
+	padding:			0px;
+ 	margin: 			20px 0px 0px 0px;
+ 	background-color: 	#222;
+ 	border-radius: 		4px;
+}
+
+#collection_menu {
+	height:						34px;
+	background-color: 			#111;
+	margin:						0px;
+	border-top-left-radius: 	4px;
+	border-top-right-radius: 	4px;
+}
+
+#collection {
+	border:				0px;
+	color:				#FFF;
+	background-color: 	#111;
+	float:				right;
+	padding:			4px;
+	margin:				4px;
+}
+
+#upload_container {
+ 	width: 				680px;
+ 	margin: 			20px 0px 0px 20px;
+}
+
+#title_upload {
+	font-size: 			16px;
+	font-weight: 		700;
+	height:				24px;
+	color:				#FFF;
+	padding:			5px;
+	border-bottom: 		1px solid #FFF;
+	margin:				10px 0px 10px 0px;
+}
+
+.form_div {
+	padding:			4px;
+	width:				400px;	
+	height:				40px;
+}
+
+#image_uploader, #image_title, #image_gear,
+#image_date, #image_category, #image_description {
+	float: 				right;
+	width: 				250px;
+}
+
+#image_title, #image_gear,
+#image_date, #image_category, #image_description {
+ 	background-color: 	#444;
+ 	border:				0px;
+	border-bottom: 		1px solid #EEE;
+	color:				#FFF;	
+}
+
+#image_description {
+	border:				1px solid #EEE;
+	height:				75px;
+	font-size: 			12px;
+	padding:			4px;
+}
+.description_div {
+	height: 			80px;
+}
+
+.submit_button {
+	float: 				right;
+	border-radius: 		4px;
+	background-color: 	#FFAA00;
+	border: 			none;
+	padding:			6px;
+}
+
+#image_previewer {
+	float:				right;
+}
+
+#image_remove {
+	border-radius: 		4px;
+	padding:			6px;
+	float:				right;
+	background-color: 	#FF2400;
+	border: 			none;
+}
+
+#delete, #cancel {
+	float:				right;
+	border-radius: 		4px;
+	margin-right: 		20px;
+	padding:			6px;
+	background-color: 	#FF2400;
+	border: 			none;
+}
+
+#cancel {
+	background-color: 	#88EE33;
+	margin-right: 		0px;
+	margin-left: 		20px;
+}
+
+
+.archive_tmb {
+	margin:				8px;
+}

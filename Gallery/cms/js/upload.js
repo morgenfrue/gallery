@@ -1,26 +1,37 @@
 $(document).ready(function() { 
     var options = { 
-        target:        '#image_previewer',   // target element(s) to be updated with server response 
-        beforeSubmit:  showRequest,  // pre-submit callback 
-        success:       showResponse  // post-submit callback 
+        target:        '#image_previewer',  
+        beforeSubmit:  showRequest,  
+        success:       showResponse   
     }; 
  
     $('#uploader').submit(function() { 
         $(this).ajaxSubmit(options); 
         return false; 
     }); 
-    
-    var url = "../sql_fetch.php";
-    $.getJSON(url, function(data){
-  	 $.each(data.photos, function(i, photo){
-  		var newRow = "id: " + photo.ID + " - title: " + photo.CAMERA;
-  		console.log(newRow);
-  		$("#image_previewer").html(newRow);
-  	 });
+
+    var gears = "";
+    $.getJSON("sql_fetch.php", {table: "gallery_gear", sort: "CAMERA", elm: "all"}, function(data) {
+        $.each(data, function(index, gear) {
+            gears += "<OPTION VALUE='" + gear.ID + "'>" + gear.CAMERA + "</OPTION>"; 
+        });
+
+        $("#image_gear").html(gears);
     });
-  	
+
+    var cats = "";
+    $.getJSON("sql_fetch.php", {table: "gallery_categories", sort: "CATEGORY", elm: "all"}, function(data) {
+        $.each(data, function(index, cat) {
+            cats += "<OPTION VALUE='" + cat.ID + "'>" + cat.CATEGORY + " - " + cat.SERIE + "</OPTION>"; 
+        });
+
+        $("#image_category").html(cats);
+        $("#collection").html(cats);        
+    });
+
   	
 }); 
+
  
 function showRequest(formData, jqForm, options) { 
     var queryString = $.param(formData); 
@@ -30,6 +41,5 @@ function showRequest(formData, jqForm, options) {
 } 
  
 function showResponse(responseText, statusText, xhr, $form)  { 
-    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText + 
-        '\n\nThe output div should have already been updated with the responseText.'); 
+    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText); 
 } 
