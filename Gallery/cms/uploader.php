@@ -71,10 +71,10 @@ function save_data($post, $tmb, $img) {
   $gear			= $post["image_gear"];
   $description 	= $post["image_description"];
 
-  $host 		= "localhost";
-  $user 		= "root";
-  $pass 		= "MANDRAKE";
-  $db		 	= "Gallery";
+  $host			= "localhost";
+  $user			= "root";
+  $pass			= "";
+  $db	 		= "gallery";
   $table		= "gallery_photos";
 
   $query 		= 'INSERT INTO 
@@ -106,7 +106,7 @@ function scale_image($source, $destination, $type, $width, $height, $quality, $m
 	
 	if ($method === 'thumb') {
 		$max_width  = 240;
-		$max_height = 180;
+		$max_height = 240;
 	} else {
 		$max_width 	= 1200;
 		$max_height	= 800;

@@ -2,19 +2,19 @@
 
 $host 		= "localhost";
 $user 		= "root";
-$pass 		= "MANDRAKE";
-$db		 	= "Gallery";
+$pass 		= "";
+$db		 	= "gallery";
 $table 		= $_GET["table"];
 $sort 		= $_GET["sort"];
 $elm		= $_GET["elm"];
 
 if ($elm != "all") { 
-	$query = "SELECT * FROM " . $table . " WHERE ID = " . $elm; 
+	$query 	= "SELECT * FROM " . $table . " WHERE ID = " . $elm; 
 } else {
 	$query 	= "SELECT * FROM " . $table . " ORDER BY " . $sort;
 }
 
-$mysqli  	= new mysqli($host, $user, $pass, $db);
+$mysqli = new mysqli($host, $user, $pass, $db);
 
 if ($mysqli->connect_errno) {
 	printf("Connect failed: %s\n", $mysqli->connect_error);
@@ -25,7 +25,7 @@ $result = $mysqli->query($query);
 $data   = array();
 
 while ($row = mysqli_fetch_array($result, true)){
-	$data[] = array_map(utf8_encode, $row); 
+	$data[] = array_map("utf8_encode", $row); 
 };
 
 echo json_encode($data);

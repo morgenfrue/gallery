@@ -4,26 +4,59 @@ $host 		= "localhost";
 $user 		= "root";
 $pass 		= "";
 $db		 	= "gallery";
-$tableName 	= "gallery_photos";
-$dbQuery 	= "SELECT ID, TITLE, DATE, FILEPATH FROM " . $tableName;
-$dbAry      = array();
+$tableName 	= $_GET["table"];
+$mnu_cat	= $_GET["cat"];
 
-// CONNECT
-//$mysqli  	= new mysqli($host, $user, $pass, $db);
-$con = @mysqli_connect($host, $user, $pass, $db);
+if ($tableName == "photos") {
+  $query = "SELECT gallery_photos.*, gallery_categories.SERIE 
+			FROM gallery_photos 
+			JOIN gallery_categories ON gallery_photos.CATEGORY=gallery_categories.ID
+			ORDER BY gallery_categories.SERIE";
+} 
 
-if (!$con) {
- trigger_error('Could not connect to MySQL: ' . mysqli_connect_error());
+if ($tableName == "sublist") {
+  $query = "SELECT * FROM gallery_photos
+  		    WHERE CATEGORY = '" . $mnu_cat . "'";	
 }
 
-
-$result = mysqli_query($con, $dbQuery);
-
-while ($row = mysqli_fetch_object($result)) {
-	$dbAry[] = $row;
+if ($tableName == "categories") {
+  $query = "SELECT DISTINCT CATEGORY 
+  		    FROM gallery_categories 
+  		    ORDER BY CATEGORY";
 }
 
-echo '{"photos":' . json_encode($dbAry) . '}';
+if ($tableName == "submenu") {
+  $query = "SELECT * 
+			FROM gallery_categories 
+  		    WHERE CATEGORY = '" . $mnu_cat . "' 
+  		    ORDER BY SERIE";
+}
 
+if ($tableName == "menu") {
+  $query = "SELECT gallery_photos.*, gallery_categories.* 
+			FROM   gallery_photos 
+			JOIN   gallery_categories 
+			ON     gallery_categories.ID=gallery_photos.CATEGORY
+			WHERE  gallery_categories.CATEGORY='" . $mnu_cat . "'";
+}
+
+$mysqli  	= new mysqli($host, $user, $pass, $db);
+
+if ($mysqli->connect_errno) {
+	printf("Connect failed: %s\n", $mysqli->connect_error);
+	exit();
+}
+
+$result = $mysqli->query($query);
+$data   = array();
+
+while ($row = mysqli_fetch_array($result, true)){
+	$data[] = array_map("utf8_encode", $row); 
+};
+
+echo json_encode($data);
+
+$result->free();
+$mysqli->close();
 
 ?>
