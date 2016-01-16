@@ -4,7 +4,7 @@
  <LINK REL="stylesheet" TYPE="text/css" HREF="css/style.css">
  <LINK HREF="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,400italic,500italic,700italic,300,300italic" REL="stylesheet" TYPE="text/css">
  <SCRIPT TYPE="text/javascript" SRC="js/jquery-2.2.0.js"></SCRIPT>
- <SCRIPT TYPE="text/javascript" SRC="js/jquery.freetile.js"></SCRIPT>
+ <SCRIPT TYPE="text/javascript" SRC="js/jquery-ui.min.js"></SCRIPT>
  <SCRIPT TYPE="text/javascript" SRC="js/top_menu.js"></SCRIPT>
  <SCRIPT TYPE="text/javascript" SRC="js/ajax_fetch.js"></SCRIPT>
 </HEAD> 
