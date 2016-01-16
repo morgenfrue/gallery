@@ -68,8 +68,6 @@ function getSubpage(id) {
             $(".content").append(newRow);
         });
         
-        $(".content").freetile();
-
         $(".pop_up_image").on('click', function(){
             if ($(".pop_up_image").is(":visible")) {
                 $(".pop_up_image").hide();
