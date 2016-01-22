@@ -8,10 +8,10 @@ $tableName 	= $_GET["table"];
 $mnu_cat	= $_GET["cat"];
 
 if ($tableName == "photos") {
-  $query = "SELECT gallery_photos.*, gallery_categories.SERIE 
+  $query = "SELECT gallery_photos.*, gallery_categories.* 
 			FROM gallery_photos 
 			JOIN gallery_categories ON gallery_photos.CATEGORY=gallery_categories.ID
-			ORDER BY gallery_categories.SERIE";
+			ORDER BY gallery_photos.ID";
 } 
 
 if ($tableName == "sublist") {
@@ -20,15 +20,15 @@ if ($tableName == "sublist") {
 }
 
 if ($tableName == "categories") {
-  $query = "SELECT DISTINCT CATEGORY 
+  $query = "SELECT DISTINCT LOCATION 
   		    FROM gallery_categories 
-  		    ORDER BY CATEGORY";
+  		    ORDER BY LOCATION";
 }
 
 if ($tableName == "submenu") {
   $query = "SELECT * 
 			FROM gallery_categories 
-  		    WHERE CATEGORY = '" . $mnu_cat . "' 
+  		    WHERE LOCATION = '" . $mnu_cat . "' 
   		    ORDER BY SERIE";
 }
 
@@ -37,7 +37,7 @@ if ($tableName == "menu") {
 			FROM   gallery_photos 
 			JOIN   gallery_categories 
 			ON     gallery_categories.ID=gallery_photos.CATEGORY
-			WHERE  gallery_categories.CATEGORY='" . $mnu_cat . "'";
+			WHERE  gallery_categories.LOCATION='" . $mnu_cat . "'";
 }
 
 $mysqli  	= new mysqli($host, $user, $pass, $db);
