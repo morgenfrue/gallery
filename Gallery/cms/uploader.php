@@ -5,6 +5,10 @@ $thumb_size		= 200;
 $thumb_prefix 	= "thumb_";
 $img_folder		= "../photos/";
 $jpg_quality	= 100;
+$twidth			= "";
+$theight		= "";
+$fwidth			= "";
+$fheight		= "";
 
 if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 	if (!isset($_FILES['image_uploader']) || !is_uploaded_file($_FILES['image_uploader']['tmp_name'])) {
@@ -55,7 +59,7 @@ if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SE
 	    	die("Error creating image :(");
 	    }
 
-	    if (save_data($_POST, $thumb_prefix, $new_file_name)) {
+	    if (save_data($_POST, $thumb_prefix, $new_file_name, $twidth, $theight, $fwidth, $fheight)) {
 	    	echo '<IMG SRC="../photos/' . $thumb_prefix . $new_file_name . '">';
 	    }
 
@@ -64,7 +68,7 @@ if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SE
 } 
 
 
-function save_data($post, $tmb, $img) {
+function save_data($post, $tmb, $img, $twidth, $theight, $fwidth, $fheight) {
   $title 		= $post["image_title"];
   $date			= $post["image_date"];
   $category		= $post["image_category"];
@@ -79,14 +83,18 @@ function save_data($post, $tmb, $img) {
 
   $query 		= 'INSERT INTO 
    			      ' . $table . 
-  				  ' (TITLE, DATE, CATEGORY, DESCRIPTION, GEAR, FILEPATH, THUMB) VALUES (
+  				  ' (TITLE, DATE, CATEGORY, DESCRIPTION, GEAR, FILEPATH, THUMB, TWIDTH, THEIGHT, WIDTH, HEIGHT) VALUES (
   				  "' . $title . '", 
   				  "' . $date . '", 
   				  "' . $category . '", 
   				  "' . $description . '", 
   				  "' . $gear . '", 
   				  "' . $img . '", 
-  				  "' . $tmb . $img . '")';
+  				  "' . $tmb . $img . '",
+  				  "' . $twidth . '",
+  				  "' . $theight . '",
+  				  "' . $fwidth . '",
+  				  "' . $fheight . '")';
 
   $mysqli  	= new mysqli($host, $user, $pass, $db);
 
@@ -96,13 +104,44 @@ function save_data($post, $tmb, $img) {
   }
 
   if ($mysqli->query($query)) {
+    $last_id = $mysqli->insert_id;
+
+  	foreach($post["keys"] as &$val) {
+  		save_tags($last_id, $val);
+  	}
+  
   	return true;
   }
+  
+}
 
+function save_tags($last_id, $tag) {
+  $host			= "localhost";
+  $user			= "root";
+  $pass			= "";
+  $db	 		= "gallery";
+
+  $query 		= 'INSERT INTO gallery_tags (TAG) VALUES ("' . $tag . '");';
+  $query	   .= 'INSERT INTO gallery_img_tag (IMG_ID, TAG_ID) VALUES ("' . $last_id . '", LAST_INSERT_ID())';
+
+  $mysqli  		= new mysqli($host, $user, $pass, $db);
+
+  if ($mysqli->connect_errno) {
+	  printf("Connect failed: %s\n", $mysqli->connect_error);
+	  exit();
+  }
+
+  $mysqli->multi_query($query);
+  
 }
 
 
+
 function scale_image($source, $destination, $type, $width, $height, $quality, $method) {
+	global $twidth;
+	global $theight;
+    global $fwidth;
+	global $fheight;
 	
 	if ($method === 'thumb') {
 		$max_width  = 240;
@@ -116,6 +155,14 @@ function scale_image($source, $destination, $type, $width, $height, $quality, $m
 	
 	$new_width  = ceil($scale*$width);
 	$new_height = ceil($scale*$height);
+	
+	if ($method === 'thumb') {
+		$twidth  = $new_width;
+		$theight = $new_height;
+	} else {
+		$fwidth  = $new_width;
+		$fheight = $new_height;
+	}
 	
 	$new_canvas	= imagecreatetruecolor($new_width, $new_height);
 	

@@ -23,7 +23,8 @@
 	</DIV>
 
 	<DIV CLASS="cover"></DIV>
-
+	
+	
 	<DIV CLASS="content" ID="content"></DIV>
 	<DIV CLASS="popup_image">
 		<P CLASS='popup_close'>X</P>
@@ -35,6 +36,11 @@
 	<DIV CLASS="left_content">
 		<DIV CLASS="sublinks"></DIV>
 	</DIV>
+	
+	<DIV CLASS="right_content">
+		<DIV CLASS="tagwall"></DIV>
+	</DIV>
+	
 </DIV>
 
 
@@ -44,6 +50,7 @@
 
 <SCRIPT>
 	createGallery("photos", "");
+	tagWall();
 </SCRIPT>
 
 </BODY>

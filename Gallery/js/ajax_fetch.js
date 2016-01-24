@@ -8,7 +8,7 @@ function createGallery(table, cat) {
         var imgList      = "";
         var popupContent = "";
         var box          = "";
-            
+        
         $.each(data, function(i, photo) {
             imgItem = {
                     title:   photo.TITLE, 
@@ -24,14 +24,14 @@ function createGallery(table, cat) {
                     fheight: photo.HEIGHT,
                     fwidth:  photo.WIDTH
             };
-                
+
             imgArray[i] = imgItem;
         });
             
        
         $.each(imgArray, function(i, n) {
             box  = "<DIV CLASS='image_box'>";
-            box += "<IMG SRC='photos/" + imgArray[i].thumb + "' ID='img_" + imgArray[i].id + "' NAME='" + i + "' CLASS='image_list'>";
+            box += "<IMG SRC='photos/" + imgArray[i].thumb + "' ID='img_" + imgArray[i].id + "' NAME='" + i + "' CLASS='image_list' WIDTH='" + imgArray[i].twidth + "' HEIGHT='" + imgArray[i].theight + "'>";
             box += "</DIV>";
                     
             $(".content").append(box);
@@ -62,13 +62,16 @@ function createGallery(table, cat) {
 
             imgName      = $(this).attr('name');
             popupContent = fillContent(imgArray[imgName]);
+            
 
             resizeBox(imgArray[imgName]);
+            
             
             $(".popup_image").toggle();
             $(".holder").toggle();
             $(".popup_content").html(popupContent);
-            
+
+            tagList(imgArray[imgName].id);            
         });
 
 
@@ -79,6 +82,9 @@ function createGallery(table, cat) {
             resizeBox(imgArray[imgName]);
             
             $(".popup_content").html(popupContent);
+
+            tagList(imgArray[imgName].id);            
+
         });
 
         $(".popup_prev").on('click', function() {
@@ -88,19 +94,46 @@ function createGallery(table, cat) {
             resizeBox(imgArray[imgName]);
             
             $(".popup_content").html(popupContent);
+
+            tagList(imgArray[imgName].id);            
+
         });
 
     });
 }
+
+function tagWall() {
+    $.getJSON("../sql_fetch.php", { table: "tagwall", cat: "" }, function(data) {
+        $(".tagwall").html("<P ID='tagwall_title'>TAGS</P>");
+        
+        $.each(data, function(i, tag) {
+            // add counter for tags!
+            $(".tagwall").append("<DIV CLASS='tagwall_tag'>" + tag.TAG + "</DIV>");
+        });
+    });
+}
+
+function tagList(id) {
+    
+    $.getJSON("../sql_fetch.php", { table: "taglist", cat: id }, function(data) {
+        $(".popup_txt").append("<DIV CLASS='taglist'>");
+
+        $.each(data, function(i, tag){
+           $(".taglist").append("<DIV CLASS='tag'>#" + tag.TAG + "</DIV>"); 
+        });
+        
+        $(".popup_txt").append("</DIV>");
+    });
+    
+  
+}
     
 function resizeBox(id) {
-    if (parseInt(id.fwidth) < parseInt(id.fheight)) {
-        $(".popup_image").width(800);
-        $(".popup_image").css("margin-left", "-400px");
-    } else {
-        $(".popup_image").width(1500);
-        $(".popup_image").css("margin-left", "-750px");
-    }
+    var marg = (parseInt(id.fwidth) + 250) / 2;
+    
+    $(".popup_image").width(parseInt(id.fwidth) + 250);
+    $(".popup_image").css("margin-left", -marg);
+    
 }
 
 function fillContent(id) {

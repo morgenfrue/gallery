@@ -8,10 +8,10 @@ $tableName 	= $_GET["table"];
 $mnu_cat	= $_GET["cat"];
 
 if ($tableName == "photos") {
-  $query = "SELECT gallery_photos.*, gallery_categories.* 
+  $query = "SELECT gallery_photos.*, gallery_categories.SERIE, gallery_categories.LOCATION 
 			FROM gallery_photos 
 			JOIN gallery_categories ON gallery_photos.CATEGORY=gallery_categories.ID
-			ORDER BY gallery_photos.ID";
+			ORDER BY gallery_photos.ID DESC";
 } 
 
 if ($tableName == "sublist") {
@@ -38,6 +38,17 @@ if ($tableName == "menu") {
 			JOIN   gallery_categories 
 			ON     gallery_categories.ID=gallery_photos.CATEGORY
 			WHERE  gallery_categories.LOCATION='" . $mnu_cat . "'";
+}
+
+if ($tableName == "tagwall") {
+  $query = "SELECT DISTINCT TAG FROM gallery_tags"; 
+}
+
+if ($tableName == "taglist") {
+  $query = "SELECT gallery_tags.TAG 
+  			FROM gallery_tags, gallery_img_tag
+			WHERE gallery_tags.ID = gallery_img_tag.TAG_ID
+			AND gallery_img_tag.IMG_ID = '" . $mnu_cat . "'";
 }
 
 $mysqli  	= new mysqli($host, $user, $pass, $db);

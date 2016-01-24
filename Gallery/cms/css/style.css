@@ -35,7 +35,7 @@ INPUT {
 
 #collection_container {
 	float:				right;
-	width:				365px;
+	width:				730px;
 	padding:			0px;
  	margin: 			20px 0px 0px 0px;
  	background-color: 	#222;
@@ -78,38 +78,145 @@ INPUT {
 	padding:			4px;
 	width:				400px;	
 	height:				40px;
+	color: #FFF;
+}
+
+.ui-datepicker-calendar {
+	display: none;
+}
+
+.ui-datepicker {
+	background-color:           #666;
+	padding:                    8px;
+	width:                      232px;
+	border:                     1px solid #FFF;
+	border-bottom-left-radius:  6px;
+    border-bottom-right-radius: 6px;
+    display:                    none;
+    height:                     80px;
+}
+
+.ui-datepicker-next {
+	float: right;
+}
+
+.ui-datepicker-prev {
+}
+
+
+.ui-datepicker-year {
+	float: right;
+	width: 110px;
+    margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.ui-datepicker-month {
+	width: 110px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.ui-datepicker-current {
+	
+}
+
+.ui-datepicker-close {
+	float: right;
 }
 
 #image_uploader, #image_title, #image_gear,
-#image_date, #image_category, #image_description {
+#image_date, #image_category, #image_description, #image_tags, #image_add_tag {
 	float: 				right;
 	width: 				250px;
 }
 
 #image_title, #image_gear,
-#image_date, #image_category, #image_description {
+#image_date, #image_category, #image_description, #image_tags, #image_add_tag {
  	background-color: 	#444;
  	border:				0px;
 	border-bottom: 		1px solid #EEE;
 	color:				#FFF;	
 }
 
+#image_category, #image_gear, #image_tags {
+	background-color:   #666;
+	border:             1px solid #FFF;
+	border-radius:      4px;
+}
+
+#image_tags {
+	margin:            0px 6px 10px 0px;
+	width:             225px;
+}
+
 #image_description {
 	border:				1px solid #EEE;
 	height:				75px;
+	font-family:        'Ubuntu';
 	font-size: 			12px;
 	padding:			4px;
+	background-color:   #555;
+	border-radius:        4px;
 }
+
 .description_div {
 	height: 			80px;
+	margin-bottom: 40px;
 }
+
+#tag_box{
+	float: right;
+	min-width: 200px;
+	min-height: 80px;
+}
+
+#image_add_tag{
+    width: 220px;
+    margin-right: 10px;	
+}
+
+#add_tag, #select_tag {
+	border: 1px solid #FFF;
+	font-size: 16px;
+	float: right;
+	margin-top: -2px;
+	border-radius: 4px;
+	background-color: #555;
+	cursor: pointer;
+	padding: 0px 5px 4px 5px;
+}
+
+#add_tag:hover, #select_tag:hover {
+	background-color: #AA4444;
+}
+
+.rtag {
+	text-align: center;
+	padding: 2px;
+	border-radius: 4px;
+	margin-bottom: 3px;
+	cursor: pointer;
+	border: 1px solid #333;
+}
+
+.rtag:hover {
+	background-color: #AA4444;
+}
+
+
 
 .submit_button {
 	float: 				right;
 	border-radius: 		4px;
 	background-color: 	#FFAA00;
 	border: 			none;
-	padding:			6px;
+	padding:			2px 6px 2px 6px;
+    font-family:        'Ubuntu';
+    font-weight:        700;
+    font-size:          12px;
+    cursor:             pointer;
+    
 }
 
 #image_previewer {
@@ -118,18 +225,27 @@ INPUT {
 
 #image_remove {
 	border-radius: 		4px;
-	padding:			6px;
-	float:				right;
+	padding:			2px 6px 2px 6px;
+	margin-left:        60px;
 	background-color: 	#FF2400;
+    font-family:        'Ubuntu';
+    font-weight:        700;
+    font-size:          12px;
 	border: 			none;
+	cursor:             pointer;
+	
 }
 
 #delete, #cancel {
+    cursor:             pointer;
 	float:				right;
 	border-radius: 		4px;
 	margin-right: 		20px;
-	padding:			6px;
+	padding:			2px 6px 2px 6px;
 	background-color: 	#FF2400;
+	font-family:        'Ubuntu';
+    font-weight:        700;
+    font-size:          12px;
 	border: 			none;
 }
 
@@ -137,6 +253,22 @@ INPUT {
 	background-color: 	#88EE33;
 	margin-right: 		0px;
 	margin-left: 		20px;
+}
+
+#cancel:hover {
+    background-color:   #CCFF66;
+}
+
+.submit_button:hover{
+    background-color:   #FFE680;
+} 
+
+#delete:hover {
+    background-color:   #FF714D;
+} 
+
+#image_remove:hover {
+    background-color:   #FF714D;
 }
 
 

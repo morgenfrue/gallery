@@ -20,18 +20,23 @@ $(document).ready(function() {
 
 function getSubmenu(id) {
     var submenu = "";
-    $(".sublinks").html(id + "<HR>");
+    $(".sublinks").html("<P ID='sublinks_title'>" + id.toUpperCase() + "</P>");
 
     $.getJSON("../sql_fetch.php", { table : "submenu", cat : id }, function(data) {
         
         $.each(data, function(i, item) {
-            submenu = "<A CLASS='submenu' ID='" + item.ID + "'>" + item.SERIE + " </A>";
+            submenu = "<DIV CLASS='submenu' ID='" + item.ID + "'>" + item.SERIE + " </DIV>";
             $(".sublinks").append(submenu);
         });
         
         $(".submenu").on('click', function() {
             $(".content").html("");
+            $(".submenu").css("color", "#CCC");
+            $(".submenu").css("font-weight", "normal");
+            $(this).css("color", "#FFF");
+            $(this).css("font-weight", "bold");
             createGallery("sublist", $(this).attr('id'));
+            
         });
     });
 }
