@@ -10,6 +10,7 @@ $theight		= "";
 $fwidth			= "";
 $fheight		= "";
 
+
 if (isset($_POST) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 	if (!isset($_FILES['image_uploader']) || !is_uploaded_file($_FILES['image_uploader']['tmp_name'])) {
 		die("Image file is missing :(");
@@ -106,8 +107,8 @@ function save_data($post, $tmb, $img, $twidth, $theight, $fwidth, $fheight) {
   if ($mysqli->query($query)) {
     $last_id = $mysqli->insert_id;
 
-  	foreach($post["keys"] as &$val) {
-  		save_tags($last_id, $val);
+  	foreach($post["keys"] as $param => $val) {
+  		save_tags($last_id, $param, $val);
   	}
   
   	return true;
@@ -115,14 +116,14 @@ function save_data($post, $tmb, $img, $twidth, $theight, $fwidth, $fheight) {
   
 }
 
-function save_tags($last_id, $tag) {
+
+function save_tags($last_id, $tag_id, $tag) {
   $host			= "localhost";
   $user			= "root";
   $pass			= "";
   $db	 		= "gallery";
-
-  $query 		= 'INSERT INTO gallery_tags (TAG) VALUES ("' . $tag . '");';
-  $query	   .= 'INSERT INTO gallery_img_tag (IMG_ID, TAG_ID) VALUES ("' . $last_id . '", LAST_INSERT_ID())';
+  
+  $_tag_id 		= explode("_", $tag_id);
 
   $mysqli  		= new mysqli($host, $user, $pass, $db);
 
@@ -131,10 +132,19 @@ function save_tags($last_id, $tag) {
 	  exit();
   }
 
-  $mysqli->multi_query($query);
+  if ($_tag_id[0] == "new") {
+  	$query 		= 'INSERT INTO gallery_tags (TAG) VALUES ("' . $tag . '");';
+  	$query	   .= 'INSERT INTO gallery_img_tag (IMG_ID, TAG_ID) VALUES ("' . $last_id . '", LAST_INSERT_ID())';
+
+  	$mysqli->multi_query($query);
+  } else {
+  	$query	   = 'INSERT INTO gallery_img_tag (IMG_ID, TAG_ID) VALUES ("' . $last_id . '", "' . $_tag_id[0] . '")';
+  	
+  	$mysqli->query($query);
+  }
+  
   
 }
-
 
 
 function scale_image($source, $destination, $type, $width, $height, $quality, $method) {

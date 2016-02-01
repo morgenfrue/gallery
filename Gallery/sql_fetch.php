@@ -6,49 +6,64 @@ $pass 		= "";
 $db		 	= "gallery";
 $tableName 	= $_GET["table"];
 $mnu_cat	= $_GET["cat"];
+$mnu_subary = [];
 
-if ($tableName == "photos") {
-  $query = "SELECT gallery_photos.*, gallery_categories.SERIE, gallery_categories.LOCATION 
-			FROM gallery_photos 
-			JOIN gallery_categories ON gallery_photos.CATEGORY=gallery_categories.ID
-			ORDER BY gallery_photos.ID DESC";
-} 
+switch ($tableName) {
+	case "photos":	
+		if ($mnu_cat != "") {
+			$mnu_subary = explode(':', $mnu_cat);
+			$query = "SELECT gallery_photos.*
+  		      		  FROM gallery_photos
+  			  		  JOIN gallery_img_tag
+  			  		  ON gallery_photos.ID=gallery_img_tag.IMG_ID
+  			  		  WHERE gallery_img_tag.TAG_ID='" . $mnu_subary[1] . "'";
+		} else {
+			$query = "SELECT gallery_photos.*, gallery_categories.SERIE, gallery_categories.LOCATION
+			  		  FROM gallery_photos
+			  		  JOIN gallery_categories
+			  		  ON gallery_photos.CATEGORY=gallery_categories.ID
+			  		  ORDER BY gallery_photos.ID DESC";
+		}
+	break;
+	
+	case "sublist":
+		$query = "SELECT * FROM gallery_photos
+  		    	  WHERE CATEGORY = '" . $mnu_cat . "'";
+	break;
+	
+	case "categories":
+	  	$query = "SELECT DISTINCT LOCATION 
+  		    	  FROM gallery_categories 
+  		    	  ORDER BY LOCATION";
+	break;
 
-if ($tableName == "sublist") {
-  $query = "SELECT * FROM gallery_photos
-  		    WHERE CATEGORY = '" . $mnu_cat . "'";	
-}
+	case "submenu":
+  		$query = "SELECT * 
+				  FROM gallery_categories 
+  		    	  WHERE LOCATION = '" . $mnu_cat . "' 
+  		    	  ORDER BY SERIE";
+  	break;
 
-if ($tableName == "categories") {
-  $query = "SELECT DISTINCT LOCATION 
-  		    FROM gallery_categories 
-  		    ORDER BY LOCATION";
-}
+  	case "menu":
+  		$query = "SELECT gallery_photos.*, gallery_categories.* 
+				  FROM   gallery_photos 
+				  JOIN   gallery_categories 
+				  ON     gallery_categories.ID=gallery_photos.CATEGORY
+				  WHERE  gallery_categories.LOCATION='" . $mnu_cat . "'";
+  	break;
 
-if ($tableName == "submenu") {
-  $query = "SELECT * 
-			FROM gallery_categories 
-  		    WHERE LOCATION = '" . $mnu_cat . "' 
-  		    ORDER BY SERIE";
-}
+  	case "tagwall":
+  		$query = "SELECT * 
+  				  FROM gallery_tags
+  		    	  GROUP BY TAG"; 
+	break;
 
-if ($tableName == "menu") {
-  $query = "SELECT gallery_photos.*, gallery_categories.* 
-			FROM   gallery_photos 
-			JOIN   gallery_categories 
-			ON     gallery_categories.ID=gallery_photos.CATEGORY
-			WHERE  gallery_categories.LOCATION='" . $mnu_cat . "'";
-}
-
-if ($tableName == "tagwall") {
-  $query = "SELECT DISTINCT TAG FROM gallery_tags"; 
-}
-
-if ($tableName == "taglist") {
-  $query = "SELECT gallery_tags.TAG 
-  			FROM gallery_tags, gallery_img_tag
-			WHERE gallery_tags.ID = gallery_img_tag.TAG_ID
-			AND gallery_img_tag.IMG_ID = '" . $mnu_cat . "'";
+  	case "taglist":
+  		$query = "SELECT gallery_tags.TAG 
+  				  FROM gallery_tags, gallery_img_tag
+				  WHERE gallery_tags.ID = gallery_img_tag.TAG_ID
+				  AND gallery_img_tag.IMG_ID = '" . $mnu_cat . "'";
+	break;	
 }
 
 $mysqli  	= new mysqli($host, $user, $pass, $db);

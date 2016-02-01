@@ -1,7 +1,10 @@
     
-function createGallery(table, cat) {
-
-    $.getJSON("../sql_fetch.php", { table: table, cat: cat }, function(data) {
+function createGallery(table, cat, header) {
+    $(".content").html("<DIV CLASS='content_title'>" + header.toUpperCase() + "</DIV>");
+    
+    $.getJSON("../sql_fetch.php", { table: table, cat: cat }, callBackWithPagination);
+    
+    function callBackWithPagination(data) {
         var imgArray     = [];
         var imgItem      = "";
         var imgName      = "";
@@ -36,16 +39,66 @@ function createGallery(table, cat) {
                     
             $(".content").append(box);
         });
+
+
+        var start    = 0;
+        var end      = $(".image_box").length;
+        var $images  = $(".image_box");
+        var pages, ppages;
+
+        $images.slice(0, 7).hide();        
+        $images.slice(0, 7).fadeIn("slow");        
+        $images.slice(8, end).hide();
+        $(".prev_page").css("display", "none");
         
-        $(function(){
-            $("div.holder").jPages({
-                containerID  : "content",
-                perPage      : 12,
-                startPage    : 1,
-                startRange   : 1,
-                midRange     : 5,
-                endRange     : 1
-            });
+        function nextPage() {
+                start    = start + 9;
+                pages    = start + 8;
+                ppages   = start - 1;
+            
+            console.log("FORWARD -> Total pages: " + $(".image_box").length + " Start: " + start + " End: " + end + " Pages: " + pages);
+
+            $(".prev_page").css("display", "block");
+
+            $images.slice(start - start, ppages).hide();
+            $images.slice(start, pages).fadeIn("slow");
+
+            
+            if (pages >= end) {
+                $(".next_page").css("display", "none");
+            }
+            
+            $images.slice(pages + 1, end).hide();
+            
+        }
+        
+
+        function prevPage() {
+                pages    = pages - 9;
+                start    = pages - 8;                
+                ppages   = pages + 1;
+
+            console.log("BACK -> Total pages: " + $(".image_box").length + " Start: " + start + " End: " + end + " Pages: " + pages);
+
+            $(".next_page").css("display", "block");
+
+            if (start <= '0') {
+                $(".prev_page").css("display", "none");
+            } else {
+                $images.slice(start - start, pages - 1).hide();
+            }
+            
+            $images.slice(ppages, end).hide();
+            $images.slice(start, pages).fadeIn("slow");
+        }
+        
+           
+        $(".next_page").on("click", function() {
+            nextPage();
+        });
+        
+        $(".prev_page").on("click", function() {
+            prevPage();   
         });
     
         $(".popup_close").on('click', function(){
@@ -98,8 +151,8 @@ function createGallery(table, cat) {
             tagList(imgArray[imgName].id);            
 
         });
-
-    });
+        
+    }
 }
 
 function tagWall() {
@@ -107,9 +160,14 @@ function tagWall() {
         $(".tagwall").html("<P ID='tagwall_title'>TAGS</P>");
         
         $.each(data, function(i, tag) {
-            // add counter for tags!
-            $(".tagwall").append("<DIV CLASS='tagwall_tag'>" + tag.TAG + "</DIV>");
+            $(".tagwall").append("<DIV CLASS='tagwall_tag' ID='" + tag.ID + "'>" + tag.TAG + "</DIV>");
         });
+        
+        $(".tagwall_tag").on('click', function() {
+            var tag_clicked = $(this).attr('id');
+            createGallery("photos", "tag:" + tag_clicked, "tag: " + $(this).html());
+        });
+
     });
 }
 

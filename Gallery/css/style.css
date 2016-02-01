@@ -33,13 +33,13 @@ A {
 
 .title {
 	float:              left;
-    width:              340px;
+    width:              370px;
     height:             55px;
 	font-size: 			24px;
 	color:              #FFF;
 	font-weight:		400;
 	text-align:         right;
-    padding:            25px 30px 0px 0px;
+    padding:            25px 20px 0px 0px;
     border-right:       1px solid #333;
     margin-right:       50px;
 }
@@ -53,7 +53,7 @@ A {
 .links_other {
 	padding:            25px 30px 0px 10px;
 	height:             55px;
-	width:             385px;
+	width:             350px;
 	float:             right;
 	border-left:       1px solid #333;
 }
@@ -68,11 +68,13 @@ A {
 }
 
 #sublinks_title {
-	border-bottom:     1px solid #666;
-	margin:            10px 15px 10px 20px;
-	padding-bottom:    10px;
-	font-weight:       500;
-	font-size:         16px;
+	border-radius: 8px;
+	background-color: #555;
+	margin:            35px 15px 10px 20px;
+	padding:           5px 10px 5px 10px;
+	font-weight:       700;
+	font-size:         20px;
+	color: #BBB;
 }
 
 .menu, .submenu, .menu_other {
@@ -98,25 +100,38 @@ A {
     cursor:             pointer;
 }
 
+.content_title {
+	background-color: #555;
+	border-radius: 8px;
+	color:             #AAA;
+	width:             400px;
+    margin:            30px 20px 0px 10px;
+    padding:           5px 10px 5px 10px;
+    font-weight:       700;
+    font-size:         22px;
+}
+
 .content {
-	max-width:          1060px;
+	width:              1050px;
 	margin:             0px auto;
     font-weight:		400;	
     padding-top:        10px;
+    padding-left:       10px;
 }
+
 
 .left_content {
 	height:                83%;
-	width:                 370px;
-    float:                 left;
+	width:                 300px;
+    float:                 right;
     position:              absolute;
-	margin-top:            0px;
+	margin:                0px 0px 0px 100px;
 	top:                   80px;
 }
 
 .right_content {
     height:                82%;
-    width:                 300px;
+    width:                 275px;
     right:                 115px;
     position:              absolute;
     margin-top:            0px;
@@ -124,34 +139,36 @@ A {
 }
 
 .tagwall {
-	min-height: 100px;
-	border-radius: 4px;
-	min-width: 200px;
-	bottom: 0px;
-	position: absolute;
-	margin-left: 12px;
-	color: #999;
-	font-size: 14px;
-	padding: 8px;
+	min-height:            100px;
+	border-radius:         4px;
+	width:                 200px;
+	bottom:                0px;
+	position:              absolute;
+	margin-left:           80px;
+	color:                 #999;
+	font-size:             14px;
+	padding:               8px;
 }
 
 #tagwall_title {
-    border-bottom:     1px solid #666;
+	text-align:        right;
+    border-radius: 8px;
+    background-color: #444;
     margin:            10px 15px 10px 0px;
-    padding-bottom:    10px;
-    font-weight:       500;
-    font-size:         16px;
+    padding:           5px 10px 5px 10px;
+    font-weight:       700;
+    font-size:         18px;
     color:             #BBB;
 }
 
 .tagwall_tag {
-	cursor: pointer;
-	float: left;
+	cursor:            pointer;
+	float:             right;
 	padding:           8px 14px 0px 0px;
 }
 
 .tagwall_tag:hover {
-	color: #FFF;
+	color:             #FFF;
 }
 
 .image_list {
@@ -173,11 +190,11 @@ A {
 
 .image_box {
 	float:             left;
-	width:             220px;
-	height:            240px;
+	width:             240px;
+	height:            300px;
 	position:          relative;
-	margin:            2px 10px 10px 10px;
-	padding:           2px 10px 10px 10px;
+	margin:            2px 10px 25px 10px;
+	padding:           2px 0px 10px 0px;
 }
 
 
@@ -310,35 +327,40 @@ A {
     width:              100%;
 }
 
-.holder {
-	padding:               5px;
-	text-align:            center;
-	margin:                0 auto;
-	font-weight:           500;
-}
-
-.jp-previous, .jp-current, .jp-next, .numbers {
-	padding:               0px 8px 4px 8px;
-	cursor:                pointer;
-}
-
-.jp-previous:hover, .jp-current:hover, .jp-next:hover, .numbers:hover {
-	background-color:      #222;
-	border-radius:         6px;
-}
-
-.jp-previous {
-    padding-left:          20px;
-    background-image:      url("../img/white-arrow-left-hi.png");
-    background-size:       15px 15px;
+.prev_page:hover {
+    background-image:      url("../img/white-arrow-left-on.png");
+    background-size:       50px 50px;
     background-position:   center;
     background-repeat:     no-repeat;
+    cursor:                pointer;
 }
 
-.jp-next {
-	padding-left:          20px;
+.prev_page {
+    background-image:      url("../img/white-arrow-left-hi.png");
+    background-size:       50px 50px;
+    background-position:   center;
+    background-repeat:     no-repeat;
+    float:                 right; 
+    height:                50px; 
+    width:                 40px; 
+    margin-top:            380px;
+}
+
+.next_page:hover {
+    background-image:      url("../img/white-arrow-right-on.png");
+    background-size:       50px 50px;
+    background-position:   center;
+    background-repeat:     no-repeat;
+    cursor:                pointer;
+}
+
+.next_page {
 	background-image:      url("../img/white-arrow-right-hi.png");
-	background-size:       15px 15px;
+	background-size:       50px 50px;
 	background-position:   center;
 	background-repeat:     no-repeat;
+	float:                 left; 
+	height:                50px;
+	width:                 40px; 
+	margin-top:            380px;
 }

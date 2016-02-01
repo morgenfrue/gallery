@@ -11,7 +11,7 @@ $(document).ready(function() {
       $(".menu").on('click', function() {
           $(".content").html("");
           getSubmenu($(this).attr('id'));
-          createGallery("menu", $(this).attr('id'));
+          createGallery("menu", $(this).attr('id'), $(this).attr('id'));
       });
 
   });
@@ -35,7 +35,7 @@ function getSubmenu(id) {
             $(".submenu").css("font-weight", "normal");
             $(this).css("color", "#FFF");
             $(this).css("font-weight", "bold");
-            createGallery("sublist", $(this).attr('id'));
+            createGallery("sublist", $(this).attr('id'), $(this).html());
             
         });
     });

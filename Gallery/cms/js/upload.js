@@ -1,5 +1,5 @@
 $(document).ready(function() { 
-    var dataArray = [];
+    var dataArray = {};
     
     var options = { 
         target: '#image_previewer', 
@@ -8,7 +8,8 @@ $(document).ready(function() {
  
     $('#uploader').submit(function() {
         $('.rtag').each(function() {
-            dataArray.push(this.innerHTML);
+            var tagid = $(this).attr('id');
+            dataArray[tagid] = this.innerHTML;
         });
         
         $(this).ajaxSubmit(options); 
@@ -53,24 +54,29 @@ $(document).ready(function() {
     var tags = "<OPTION>CHOOSE TAG</OPTION><OPTION>------------------------</OPTION>";
     $.getJSON("sql_fetch.php", {table: "gallery_tags", sort: "ID", elm: "all"}, function(data) {
         $.each(data, function(index, tag) {
-            tags += "<OPTION VALUE='" + tag.TAG + "'>" + tag.TAG + "</OPTION>"; 
+            tags += "<OPTION VALUE='" + tag.ID + "'>" + tag.TAG + "</OPTION>"; 
         });
 
         $("#image_tags").html(tags);
     });
 
     $('#select_tag').on("click", function(){
-        var newTag = $("#image_tags").val();
-        $("#tag_box").append("<DIV CLASS='rtag'>" + newTag + "</DIV>");
+        var newTag    = $("#image_tags option:selected").html();
+        var newTag_id = $("#image_tags").val();
+        $("#tag_box").append("<DIV CLASS='rtag' ID='" + newTag_id + "'>" + newTag + "</DIV>");
         
         $(".rtag").on("click", function() {
             $(this).remove(); 
         });
      });
+
+    var countid = '0';
+    
     
     $('#add_tag').on("click", function(){
        var newTag = $("#image_add_tag").val();
-       $("#tag_box").append("<DIV CLASS='rtag'>" + newTag + "</DIV>");
+       countid++;
+       $("#tag_box").append("<DIV CLASS='rtag' id='new_" + countid + "'>" + newTag + "</DIV>");
        $('#image_add_tag').val("");
        
        $(".rtag").on("click", function() {
