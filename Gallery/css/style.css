@@ -2,7 +2,7 @@
 
 HTML {
 	height:             100%;
-    overflow-y:         hidden;	
+/*    overflow-y:         hidden;	 */
 }
 
 BODY {
@@ -112,11 +112,17 @@ A {
 }
 
 .content {
-	width:              1050px;
+	width:              1150px;
 	margin:             0px auto;
     font-weight:		400;	
-    padding-top:        10px;
+    margin-top:         10px;
     padding-left:       10px;
+}
+
+.content::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 
@@ -193,8 +199,8 @@ A {
 	width:             240px;
 	height:            300px;
 	position:          relative;
-	margin:            2px 10px 25px 10px;
-	padding:           2px 0px 10px 0px;
+	/*margin:            2px 10px 25px 10px;
+	padding:           2px 0px 10px 0px; */
 }
 
 
@@ -336,7 +342,7 @@ A {
 }
 
 .prev_page {
-    background-image:      url("../img/white-arrow-left-hi.png");
+    background-image:      url("../img/white-arrow-left-hi.png"); 
     background-size:       50px 50px;
     background-position:   center;
     background-repeat:     no-repeat;

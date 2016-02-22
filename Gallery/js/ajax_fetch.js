@@ -1,6 +1,6 @@
     
 function createGallery(table, cat, header) {
-    $(".content").html("<DIV CLASS='content_title'>" + header.toUpperCase() + "</DIV>");
+/*    $(".content").html("<DIV CLASS='content_title'>" + header.toUpperCase() + "</DIV>"); */
     
     $.getJSON("../sql_fetch.php", { table: table, cat: cat }, callBackWithPagination);
     
@@ -40,66 +40,6 @@ function createGallery(table, cat, header) {
             $(".content").append(box);
         });
 
-
-        var start    = 0;
-        var end      = $(".image_box").length;
-        var $images  = $(".image_box");
-        var pages, ppages;
-
-        $images.slice(0, 7).hide();        
-        $images.slice(0, 7).fadeIn("slow");        
-        $images.slice(8, end).hide();
-        $(".prev_page").css("display", "none");
-        
-        function nextPage() {
-                start    = start + 9;
-                pages    = start + 8;
-                ppages   = start - 1;
-            
-            console.log("FORWARD -> Total pages: " + $(".image_box").length + " Start: " + start + " End: " + end + " Pages: " + pages);
-
-            $(".prev_page").css("display", "block");
-
-            $images.slice(start - start, ppages).hide();
-            $images.slice(start, pages).fadeIn("slow");
-
-            
-            if (pages >= end) {
-                $(".next_page").css("display", "none");
-            }
-            
-            $images.slice(pages + 1, end).hide();
-            
-        }
-        
-
-        function prevPage() {
-                pages    = pages - 9;
-                start    = pages - 8;                
-                ppages   = pages + 1;
-
-            console.log("BACK -> Total pages: " + $(".image_box").length + " Start: " + start + " End: " + end + " Pages: " + pages);
-
-            $(".next_page").css("display", "block");
-
-            if (start <= '0') {
-                $(".prev_page").css("display", "none");
-            } else {
-                $images.slice(start - start, pages - 1).hide();
-            }
-            
-            $images.slice(ppages, end).hide();
-            $images.slice(start, pages).fadeIn("slow");
-        }
-        
-           
-        $(".next_page").on("click", function() {
-            nextPage();
-        });
-        
-        $(".prev_page").on("click", function() {
-            prevPage();   
-        });
     
         $(".popup_close").on('click', function(){
             $(".popup_image").hide();
@@ -109,26 +49,8 @@ function createGallery(table, cat, header) {
             imgName = 0;
         });
 
-      
-        $(".image_list").on('click', function() {
-            $(".cover").fadeTo(500, 1);
 
-            imgName      = $(this).attr('name');
-            popupContent = fillContent(imgArray[imgName]);
-            
-
-            resizeBox(imgArray[imgName]);
-            
-            
-            $(".popup_image").toggle();
-            $(".holder").toggle();
-            $(".popup_content").html(popupContent);
-
-            tagList(imgArray[imgName].id);            
-        });
-
-
-        $(".popup_next").on('click', function() {
+       $(".popup_next").on('click', function() {
             imgName      = parseInt(imgName)+1;
             popupContent = fillContent(imgArray[imgName]);
             
@@ -151,9 +73,27 @@ function createGallery(table, cat, header) {
             tagList(imgArray[imgName].id);            
 
         });
+
+        $(".image_list").on('click', function() {
+            $(".cover").fadeTo(500, 1);
+
+            imgName      = $(this).attr('name');
+            popupContent = fillContent(imgArray[imgName]);
+            
+
+            resizeBox(imgArray[imgName]);
+            
+            
+            $(".popup_image").toggle();
+            $(".holder").toggle();
+            $(".popup_content").html(popupContent);
+
+            tagList(imgArray[imgName].id);            
+        });
         
     }
 }
+
 
 function tagWall() {
     $.getJSON("../sql_fetch.php", { table: "tagwall", cat: "" }, function(data) {

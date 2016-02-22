@@ -5,9 +5,9 @@
  <LINK HREF="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,400italic,500italic,700italic,300,300italic" REL="stylesheet" TYPE="text/css">
  <SCRIPT TYPE="text/javascript" SRC="js/jquery-2.2.0.js"></SCRIPT>
  <SCRIPT TYPE="text/javascript" SRC="js/jquery-ui.min.js"></SCRIPT>
-<!-- <SCRIPT TYPE="text/javascript" SRC="js/jPages.min.js"></SCRIPT> -->
  <SCRIPT TYPE="text/javascript" SRC="js/ajax_fetch.js"></SCRIPT>
  <SCRIPT TYPE="text/javascript" SRC="js/top_menu.js"></SCRIPT>
+ <script type="text/javascript" src="js/partition.js"></script>
 </HEAD> 
 <BODY>
 
@@ -33,13 +33,13 @@
 	</DIV>
 
 	<DIV CLASS="left_content">
-		<DIV CLASS="prev_page"></DIV>
-		<DIV CLASS="sublinks"></DIV>
+	  <DIV CLASS="prev_page"></DIV> 
+	  <DIV CLASS="sublinks"></DIV>
 	</DIV>
 	
 	<DIV CLASS="right_content">
-		<DIV CLASS="next_page"></DIV>
-		<DIV CLASS="tagwall"></DIV>
+      <DIV CLASS="next_page"></DIV> 
+	  <DIV CLASS="tagwall"></DIV>
 	</DIV>
 	
 </DIV>
